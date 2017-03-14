@@ -35,7 +35,10 @@ class Post extends Service { //Endpointname depends of class name
 		return request_promise;
 	}
 }
+```
 
+myApp.js
+```
 var PostService = new Post();
 
 //Use it with async/await ES7!!
