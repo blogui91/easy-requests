@@ -1,3 +1,8 @@
+/* 
+ *	Easy requests |
+ *	(c) 2016 by Cesar Santana 
+ */
+
 var axios = require('axios');
 var pluralize = require('pluralize');
 
@@ -21,10 +26,10 @@ class Service {
 		let origin = this.config.origin;
 		let endpoint = this.config.endpoint;
 
-		return this.removeDuplicatedSlashes(origin + "/" + prefix + "/" + endpoint + "/" + id + "/");
+		return this.sanitizeUrl(origin + "/" + prefix + "/" + endpoint + "/" + id + "/");
 	}
 
-	removeDuplicatedSlashes(endpoint) {
+	sanitizeUrl(endpoint) {
 		return endpoint.replace(/([^:])(\/\/+)/g, '$1/');
 	}
 

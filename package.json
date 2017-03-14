@@ -1,19 +1,19 @@
 {
-  "name": "easy-services",
+  "name": "easy-requests",
   "version": "1.0.0",
   "description": "Painless http requests",
-  "main": "service.js",
+  "main": "index.js",
   "scripts": {
     "dev": "node ./src/service.js",
-    "build": "browserify src/service.js -o dist/service.js -t [ babelify --presets [ es2015 react ] ]",
+    "build": "browserify ./src/easy-requests.js -o dist/easy-requests.js -t [ babelify --presets [ es2015 react ] ]",
     "buildapp": "browserify ./examples/app.js -o ./examples/bundle.js -t [ babelify --presets [ es2015 react ] ]"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/blogui91/easy-services.git"
+    "url": "git+https://github.com/blogui91/easy-requests.git"
   },
   "keywords": [
-    "easy-services",
+    "easy-requests",
     "js",
     "javascript",
     "await",
@@ -22,9 +22,9 @@
   "author": "Cesar Santana",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/blogui91/easy-services/issues"
+    "url": "https://github.com/blogui91/easy-requests/issues"
   },
-  "homepage": "https://github.com/blogui91/easy-services#readme",
+  "homepage": "https://github.com/blogui91/easy-requests#readme",
   "dependencies": {
     "axios": "^0.15.3",
     "pluralize": "^4.0.0"
