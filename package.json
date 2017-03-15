@@ -2,11 +2,11 @@
   "name": "easy-requests",
   "version": "1.0.1",
   "description": "Painless http requests",
-  "main": "index.js",
+  "main": "dist/easy-requests.js",
   "scripts": {
     "dev": "node ./src/service.js",
-    "build": "browserify ./src/easy-requests.js -o dist/easy-requests.js -t [ babelify --presets [ es2015 react ] ]",
-    "buildapp": "browserify ./examples/app.js -o ./examples/bundle.js -t [ babelify --presets [ es2015 react ] ]"
+    "build": "babel ./src/easy-requests.js -o dist/easy-requests.js",
+    "buildapp": "babel ./examples/app.js -o ./examples/bundle.js"
   },
   "repository": {
     "type": "git",
@@ -32,6 +32,8 @@
   "devDependencies": {
     "babel-preset-es2015": "^6.24.0",
     "babel-preset-react": "^6.23.0",
+    "babel-cli": "^6.24.0",
+    "babel-preset-stage-2": "^6.22.0",
     "babelify": "^7.3.0"
   }
 }
