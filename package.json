@@ -1,6 +1,6 @@
 {
   "name": "easy-requests",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Painless http requests",
   "main": "dist/easy-requests.js",
   "scripts": {
