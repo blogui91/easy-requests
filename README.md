@@ -1,4 +1,18 @@
 # Easy requests
+### description
+Easy requests is a small library which you will be able to make CRUD requests in easy manner just by extending a class! 
+```
+import Service from 'easy-request'
+class User extends Service
+```
+Once that you have extended Service class, you may use methods 
+```
+[GET] User.get({per_page:10})
+[GET] User.find(id, {paramOne: value } ) 
+[POST] User.create(new_user)
+[PUT] User.update(id) 
+[DELETE] User.delete(id)
+```
 ##Example:
 
 ```
