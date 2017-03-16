@@ -110,7 +110,7 @@ You may need to send CSRF-TOKEN header for each request, Most of backend framewo
 
 You can add it in your class by doing
 
-```
+```js
 import Service from 'easy-request'
 class Post extends Service
 {
@@ -126,7 +126,7 @@ class Post extends Service
 
 Or adding this in your app.js
 
-```
+```js
 window.axios = require('axios');
 
 window.axios.defaults.headers.common = {
