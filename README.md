@@ -1,13 +1,13 @@
 # Easy requests
 
 ## Instalation
-	```
-		npm install easy-requests-js
-	```
+```
+    npm install easy-requests-js
+```
 
 ## description
 Easy requests is a small library which you will be able to make CRUD requests in easy manner just by extending a class! 
-```
+```js
 import Service from 'easy-request'
 class User extends Service
 {
@@ -17,7 +17,7 @@ class User extends Service
 }
 ```
 Once that you have extended Service class, you may use methods 
-```
+```js
 var getParams = { per_page : 10 }; 
 var findParams = { paramOne : "value" }
 [GET] User.get(getParams)         http://domain.com/users?per_page=10
@@ -30,7 +30,7 @@ var findParams = { paramOne : "value" }
 ## We also be able to add custom routes like below and the next example:
 
 #### PostService.js
-```
+```js
 import Service from 'easy-request'
 
 class Post extends Service { //Endpointname depends of class name
@@ -67,7 +67,7 @@ class Post extends Service { //Endpointname depends of class name
 ```
 
 #### app.js
-```
+```js
 import PostService from './services/PostService'
 
 let posts_list = [];
