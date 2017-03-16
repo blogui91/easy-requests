@@ -10,13 +10,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 /* 
  *	Easy requests |
- *	(c) 2016 by Cesar Santana 
+ *	(c) 2017 by Cesar Santana 
  */
 
 var axios = require('axios');
 var pluralize = require('pluralize');
 
 var Service = function () {
+	/**
+  * Create a new instance.
+  *
+  */
 	function Service() {
 		_classCallCheck(this, Service);
 
@@ -28,11 +32,24 @@ var Service = function () {
 		};
 	}
 
+	/**
+  * Returns name of the constructor.
+  *
+  * @returns String
+  */
+
 	_createClass(Service, [{
 		key: 'getClassName',
 		value: function getClassName() {
 			return this.constructor.name;
 		}
+
+		/**
+   * Builds url.
+   *
+   * @returns String
+   */
+
 	}, {
 		key: 'buildUrl',
 		value: function buildUrl() {
@@ -44,11 +61,25 @@ var Service = function () {
 
 			return this.sanitizeUrl(origin + "/" + prefix + "/" + endpoint + "/" + id + "/");
 		}
+
+		/**
+   * Remove duplicated slashes.
+   *
+   * @returns String
+   */
+
 	}, {
 		key: 'sanitizeUrl',
 		value: function sanitizeUrl(endpoint) {
 			return endpoint.replace(/([^:])(\/\/+)/g, '$1/');
 		}
+
+		/**
+   * Make GET request to determinated URL.
+   *
+   * @returns Promise
+   */
+
 	}, {
 		key: 'get',
 		value: function get() {
@@ -69,6 +100,13 @@ var Service = function () {
 
 			return promise_request;
 		}
+
+		/**
+   * Make POST request to determinated URL to create a resource.
+   *
+   * @returns Promise
+   */
+
 	}, {
 		key: 'create',
 		value: function create(data) {
@@ -88,6 +126,13 @@ var Service = function () {
 			});
 			return promise_request;
 		}
+
+		/**
+   * Make GET request to determinated URL to get a resource.
+   *
+   * @returns Promise
+   */
+
 	}, {
 		key: 'find',
 		value: function find(id) {
@@ -112,6 +157,13 @@ var Service = function () {
 
 			return resource_promise;
 		}
+
+		/**
+   * Make PUT request to determinated URL to update a resource.
+   *
+   * @returns Promise
+   */
+
 	}, {
 		key: 'update',
 		value: function update(id, data) {
@@ -128,6 +180,13 @@ var Service = function () {
 
 			return resource_promise;
 		}
+
+		/**
+   * Make DELETE request to determinated URL to delete a resource.
+   *
+   * @returns Promise
+   */
+
 	}, {
 		key: 'delete',
 		value: function _delete(id) {
