@@ -1,12 +1,16 @@
 /* 
  *	Easy requests |
- *	(c) 2016 by Cesar Santana 
+ *	(c) 2017 by Cesar Santana 
  */
 
 var axios = require('axios');
 var pluralize = require('pluralize');
 
 class Service {
+	/**
+	 * Create a new instance.
+	 *
+	 */
 	constructor() {
 		this.http = axios;
 		this.config = {
@@ -17,9 +21,22 @@ class Service {
 		}
 	}
 
+	/**
+	 * Returns name of the constructor.
+	 *
+	 * @returns String
+	 */
+
 	getClassName() {
 		return this.constructor.name;
 	}
+
+
+	/**
+	 * Builds url.
+	 *
+	 * @returns String
+	 */
 
 	buildUrl(id = '') {
 		let prefix = this.config.prefix;
@@ -29,9 +46,22 @@ class Service {
 		return this.sanitizeUrl(origin + "/" + prefix + "/" + endpoint + "/" + id + "/");
 	}
 
+	/**
+	 * Remove duplicated slashes.
+	 *
+	 * @returns String
+	 */
+
 	sanitizeUrl(endpoint) {
 		return endpoint.replace(/([^:])(\/\/+)/g, '$1/');
 	}
+
+
+	/**
+	 * Make GET request to determinated URL.
+	 *
+	 * @returns Promise
+	 */
 
 	get(params = {}) {
 		var route = this.buildUrl();
@@ -50,6 +80,12 @@ class Service {
 		return promise_request
 	}
 
+	/**
+	 * Make POST request to determinated URL to create a resource.
+	 *
+	 * @returns Promise
+	 */
+
 	create(data) {
 		if (!data) {
 			throw "data is needed";
@@ -67,6 +103,13 @@ class Service {
 		});
 		return promise_request;
 	}
+
+
+	/**
+	 * Make GET request to determinated URL to get a resource.
+	 *
+	 * @returns Promise
+	 */
 
 	find(id, params = {}) {
 		if (!id) {
@@ -89,7 +132,11 @@ class Service {
 		return resource_promise;
 	}
 
-
+	/**
+	 * Make PUT request to determinated URL to update a resource.
+	 *
+	 * @returns Promise
+	 */
 	update(id, data) {
 		var endpoint = this.buildUrl(id);
 		var resource_promise = new Promise((resolve, reject) => {
@@ -105,6 +152,12 @@ class Service {
 		return resource_promise;
 	}
 
+
+	/**
+	 * Make DELETE request to determinated URL to delete a resource.
+	 *
+	 * @returns Promise
+	 */
 	delete(id) {
 		var endpoint = this.buildUrl(id);
 		var resource_promise = new Promise((resolve, reject) => {

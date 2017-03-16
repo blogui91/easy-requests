@@ -1,5 +1,11 @@
 # Easy requests
-### description
+
+## Instalation
+	```
+		npm install easy-requests-js
+	```
+
+## description
 Easy requests is a small library which you will be able to make CRUD requests in easy manner just by extending a class! 
 ```
 import Service from 'easy-request'
@@ -128,3 +134,8 @@ window.axios.defaults.headers.common = {
 	'X-Requested-With': 'XMLHttpRequest',
 };
 ```
+
+# Contributing
+
+Please feel free in openning an issue if you have any problem or have any idea to improve, even in creating pull requests :)
+
