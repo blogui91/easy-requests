@@ -2,7 +2,7 @@
 
 ## Instalation
 ```
-    npm install easy-requests-js
+    npm install easy-requests
 ```
 
 ## description
