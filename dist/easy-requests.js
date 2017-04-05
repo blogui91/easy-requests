@@ -15,6 +15,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var axios = require('axios');
 var pluralize = require('pluralize');
+var _ = require('lodash');
 
 var Service = function () {
 	/**
@@ -28,8 +29,7 @@ var Service = function () {
 		this.config = {
 			origin: window.location.origin,
 			prefix: '',
-			endpoint: pluralize(_.kebabCase(this.getClassName()))
-				.toLowerCase()
+			endpoint: pluralize(_.kebabCase(this.getClassName())).toLowerCase()
 		};
 	}
 
