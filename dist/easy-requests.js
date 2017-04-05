@@ -28,7 +28,8 @@ var Service = function () {
 		this.config = {
 			origin: window.location.origin,
 			prefix: '',
-			endpoint: pluralize(this.getClassName()).toLowerCase()
+			endpoint: pluralize(_.kebabCase(this.getClassName()))
+				.toLowerCase()
 		};
 	}
 
