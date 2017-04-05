@@ -5,6 +5,7 @@
 
 var axios = require('axios');
 var pluralize = require('pluralize');
+var _ = require('lodash');
 
 class Service {
 	/**
@@ -16,7 +17,7 @@ class Service {
 		this.config = {
 			origin: window.location.origin,
 			prefix: '',
-			endpoint: pluralize(this.getClassName())
+			endpoint: pluralize(_.kebabCase(this.getClassName()))
 				.toLowerCase()
 		}
 	}
