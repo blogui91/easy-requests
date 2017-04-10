@@ -8,7 +8,7 @@
 ## description
 Easy requests is a small library which you will be able to make CRUD requests in easy manner just by extending a class! 
 ```js
-import Service from 'easy-request'
+import Service from 'easy-requests'
 class User extends Service
 {
   constructor(){
@@ -68,11 +68,9 @@ class Post extends Service { //Endpointname depends of class name
 
 #### app.js
 ```js
-import PostService from './services/PostService'
+import Post from './services/PostService'
 
 let posts_list = [];
-let Post = new PostService();
-
 // Option 1
 
 let post_promise = Post.get();

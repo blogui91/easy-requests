@@ -58,13 +58,38 @@ class Service {
 	}
 
 
+	static get(params = {}) {
+		let service = new this();
+		return service.getResource(params);
+	}
+
+	static create(data) {
+		let service = new this();
+		return service.createResource(params);
+	}
+
+	static find(id, params = {}) {
+		let service = new this();
+		return service.findResource(id, params);
+	}
+
+	static delete(id) {
+		let service = new this();
+		return service.deleteResource(id);
+	}
+
+	static update(id, data) {
+		let service = new this();
+		return service.updateResource(id, data);
+	}
+
 	/**
 	 * Make GET request to determinated URL.
 	 *
 	 * @returns Promise
 	 */
 
-	get(params = {}) {
+	getResource(params = {}) {
 		var route = this.buildUrl();
 		var promise_request = new Promise((resolve, reject) => {
 			this.http.get(route, {
@@ -87,7 +112,7 @@ class Service {
 	 * @returns Promise
 	 */
 
-	create(data) {
+	createResource(data) {
 		if (!data) {
 			throw "data is needed";
 			return;
@@ -105,14 +130,13 @@ class Service {
 		return promise_request;
 	}
 
-
 	/**
 	 * Make GET request to determinated URL to get a resource.
 	 *
 	 * @returns Promise
 	 */
 
-	find(id, params = {}) {
+	findResource(id, params = {}) {
 		if (!id) {
 			throw "ID is needed";
 			return;
@@ -138,7 +162,7 @@ class Service {
 	 *
 	 * @returns Promise
 	 */
-	update(id, data) {
+	updateResource(id, data) {
 		var endpoint = this.buildUrl(id);
 		var resource_promise = new Promise((resolve, reject) => {
 			this.http.put(endpoint, data)
@@ -153,13 +177,16 @@ class Service {
 		return resource_promise;
 	}
 
-
 	/**
 	 * Make DELETE request to determinated URL to delete a resource.
 	 *
 	 * @returns Promise
 	 */
-	delete(id) {
+	deleteResource(id) {
+		if (!id) {
+			throw "ID to delete is needed";
+			return;
+		}
 		var endpoint = this.buildUrl(id);
 		var resource_promise = new Promise((resolve, reject) => {
 			this.http.delete(endpoint)
