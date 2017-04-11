@@ -74,6 +74,9 @@ var Service = function () {
 		value: function sanitizeUrl(endpoint) {
 			return endpoint.replace(/([^:])(\/\/+)/g, '$1/');
 		}
+	}, {
+		key: 'getResource',
+
 
 		/**
    * Make GET request to determinated URL.
@@ -81,9 +84,7 @@ var Service = function () {
    * @returns Promise
    */
 
-	}, {
-		key: 'get',
-		value: function get() {
+		value: function getResource() {
 			var _this = this;
 
 			var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -109,8 +110,8 @@ var Service = function () {
    */
 
 	}, {
-		key: 'create',
-		value: function create(data) {
+		key: 'createResource',
+		value: function createResource(data) {
 			var _this2 = this;
 
 			if (!data) {
@@ -135,8 +136,8 @@ var Service = function () {
    */
 
 	}, {
-		key: 'find',
-		value: function find(id) {
+		key: 'findResource',
+		value: function findResource(id) {
 			var _this3 = this;
 
 			var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -166,8 +167,8 @@ var Service = function () {
    */
 
 	}, {
-		key: 'update',
-		value: function update(id, data) {
+		key: 'updateResource',
+		value: function updateResource(id, data) {
 			var _this4 = this;
 
 			var endpoint = this.buildUrl(id);
@@ -189,10 +190,14 @@ var Service = function () {
    */
 
 	}, {
-		key: 'delete',
-		value: function _delete(id) {
+		key: 'deleteResource',
+		value: function deleteResource(id) {
 			var _this5 = this;
 
+			if (!id) {
+				throw "ID to delete is needed";
+				return;
+			}
 			var endpoint = this.buildUrl(id);
 			var resource_promise = new Promise(function (resolve, reject) {
 				_this5.http.delete(endpoint).then(function (data) {
@@ -202,6 +207,40 @@ var Service = function () {
 				});
 			});
 			return resource_promise;
+		}
+	}], [{
+		key: 'get',
+		value: function get() {
+			var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+			var service = new this();
+			return service.getResource(params);
+		}
+	}, {
+		key: 'create',
+		value: function create(data) {
+			var service = new this();
+			return service.createResource(params);
+		}
+	}, {
+		key: 'find',
+		value: function find(id) {
+			var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+			var service = new this();
+			return service.findResource(id, params);
+		}
+	}, {
+		key: 'delete',
+		value: function _delete(id) {
+			var service = new this();
+			return service.deleteResource(id);
+		}
+	}, {
+		key: 'update',
+		value: function update(id, data) {
+			var service = new this();
+			return service.updateResource(id, data);
 		}
 	}]);
 

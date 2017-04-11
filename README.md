@@ -27,53 +27,56 @@ var findParams = { paramOne : "value" }
 [DELETE] User.delete(id)	  http://domain.com/users/2342
 
 ```
-## We also be able to add custom routes like below and the next example:
+## We also be able to add custom routes like below in next example:
 
 #### PostService.js
 ```js
-import Service from 'easy-request'
+import Service from 'easy-requests'
 
-class Post extends Service { //Endpointname depends of class name
+class Post extends Service {
 	constructor() {
 		super();
-
-		//Overriding values
-		this.config.origin = "http://localhost:8000"; //http://localhost:8000/posts
-		this.config.endpoint = '/my-posts'; // we override endpoint default name to, http://localhost:8000/my-posts 
-		//this.config.prefix = 'admin'; //http://localhost:8000/admin/my-posts
 	}
 
-	//Custom methods
-	getUnpublishedPosts(params) {
-		var route = this.buildUrl() + "/unpublished-posts"; //http://localhost:8000/my-posts/unpublished-posts 
+	static customMethod() {
+		let PostClass = this; // This line in mandatory**
+		let PostService = new PostClass(); //This line is mandatory
 
-		//if you want to send params to the url, send it as second parameter in this.http.get function
-		// for more information check axios documentation [https://github.com/mzabriskie/axios]
-		var request_promise = new Promise((resolve, reject) => {
-			this.http.get(route, {
-					params
-				})
-				.then(response => {
-					resolve(response);
-				})
-				.catch(error => {
-					reject(error);
-				});
-		});
+		let route = PostService.buildUrl('unpublished') //this line build our full route returning something like http://localhost:8000/posts/unpublished/
+
+		// We are creating a function that receives two params to resolve and reject a promise,
+		let request = (resolve, reject) => {
+			//PostService.http.{verb} Allow us to make the http request  using the verbs [GET|POST|DELETE|PUT] etc
+			PostService.http.get(route)
+				.then(response => resolve(response.data))
+				.catch(error => reject(error))
+		}
+		// basicly this is the structure that a promise instance must receive which it will be declared below. 	
+
+		// Create a promise which will resolve our request , 
+		let request_promise = new Promise(request)
 
 		return request_promise;
 	}
 }
+
+export default Post
 ```
+
+#### Notes
+##### 1. If you don't know how a promise works take a look in https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+##### 2. If you have any question about how http request provider works, please check Axiosjs Documentation.
 
 #### app.js
 ```js
-import Post from './services/PostService'
+
+import Post from './services/PostService'  // We don't have to instance our Class anymore! (Like in previous versions below 1.1.0) 
 
 let posts_list = [];
 // Option 1
 
 let post_promise = Post.get();
+
 post_promise.then(posts =>{
 	posts_list = posts;
 }).catch(error =>{
