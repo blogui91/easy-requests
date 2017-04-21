@@ -64,7 +64,7 @@ export default Post
 
 #### Notes
 ##### 1. If you don't know how a promise works take a look in https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
-##### 2. If you have any question about how http request provider works, please check Axiosjs Documentation.
+##### 2. If you have any question about how http request provider works, please check Axios[https://github.com/mzabriskie/axios] Documentation.
 
 #### app.js
 ```js
