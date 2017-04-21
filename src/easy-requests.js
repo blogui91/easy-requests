@@ -57,6 +57,10 @@ class Service {
 		return endpoint.replace(/([^:])(\/\/+)/g, '$1/');
 	}
 
+	static newInstance() {
+		return new this();
+	}
+
 
 	static get(params = {}) {
 		let service = new this();

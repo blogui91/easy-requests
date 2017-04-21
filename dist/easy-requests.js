@@ -209,6 +209,11 @@ var Service = function () {
 			return resource_promise;
 		}
 	}], [{
+		key: 'newInstance',
+		value: function newInstance() {
+			return new this();
+		}
+	}, {
 		key: 'get',
 		value: function get() {
 			var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
