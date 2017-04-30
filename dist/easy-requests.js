@@ -225,7 +225,7 @@ var Service = function () {
 		key: 'create',
 		value: function create(data) {
 			var service = new this();
-			return service.createResource(params);
+			return service.createResource(data);
 		}
 	}, {
 		key: 'find',

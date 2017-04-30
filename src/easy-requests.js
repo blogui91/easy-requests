@@ -69,7 +69,7 @@ class Service {
 
 	static create(data) {
 		let service = new this();
-		return service.createResource(params);
+		return service.createResource(data);
 	}
 
 	static find(id, params = {}) {
