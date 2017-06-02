@@ -76,29 +76,29 @@ class Service {
 	}
 
 
-	static get(params = {}) {
+	static get(params = {}, parent_id) {
 		let service = new this();
-		return service.getResource(params);
+		return service.getResource(params, parent_id);
 	}
 
-	static create(data) {
+	static create(data, parent_id) {
 		let service = new this();
-		return service.createResource(data);
+		return service.createResource(data, parent_id);
 	}
 
-	static find(id, params = {}) {
+	static find(id, params = {}, parent_id) {
 		let service = new this();
-		return service.findResource(id, params);
+		return service.findResource(id, params, parent_id);
 	}
 
-	static delete(id) {
+	static delete(id, parent_id) {
 		let service = new this();
-		return service.deleteResource(id);
+		return service.deleteResource(id, parent_id);
 	}
 
-	static update(id, data) {
+	static update(id, data, parent_id) {
 		let service = new this();
-		return service.updateResource(id, data);
+		return service.updateResource(id, data, parent_id);
 	}
 
 	/**
@@ -107,7 +107,8 @@ class Service {
 	 * @returns Promise
 	 */
 
-	getResource(params = {}) {
+	getResource(params = {}, parent_id = null) {
+		this.parent_id = parent_id;
 		var route = this.buildUrl();
 		var promise_request = new Promise((resolve, reject) => {
 			this.http.get(route, {
@@ -130,11 +131,12 @@ class Service {
 	 * @returns Promise
 	 */
 
-	createResource(data) {
+	createResource(data, parent_id = null) {
 		if (!data) {
 			throw "data is needed";
 			return;
 		}
+		this.parent_id = parent_id;
 		var route = this.buildUrl();
 		var promise_request = new Promise((resolve, reject) => {
 			this.http.post(route, data)
@@ -154,11 +156,12 @@ class Service {
 	 * @returns Promise
 	 */
 
-	findResource(id, params = {}) {
+	findResource(id, params = {}, parent_id = null) {
 		if (!id) {
 			throw "ID is needed";
 			return;
 		}
+		this.parent_id = parent_id;
 		var route = this.buildUrl(id);
 		var resource_promise = new Promise((resolve, reject) => {
 			this.http.get(route, {
@@ -180,7 +183,8 @@ class Service {
 	 *
 	 * @returns Promise
 	 */
-	updateResource(id, data) {
+	updateResource(id, data, parent_id = null) {
+		this.parent_id = parent_id;
 		var endpoint = this.buildUrl(id);
 		var resource_promise = new Promise((resolve, reject) => {
 			this.http.put(endpoint, data)
@@ -200,11 +204,12 @@ class Service {
 	 *
 	 * @returns Promise
 	 */
-	deleteResource(id) {
+	deleteResource(id, parent_id = null) {
 		if (!id) {
 			throw "ID to delete is needed";
 			return;
 		}
+		this.parent_id = parent_id;
 		var endpoint = this.buildUrl(id);
 		var resource_promise = new Promise((resolve, reject) => {
 			this.http.delete(endpoint)
