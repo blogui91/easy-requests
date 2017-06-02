@@ -39,7 +39,7 @@ class Post extends Service {
 	}
 
 	static customMethod() {
-		let PostService = this.newInstance(); //This line is mandatory
+		let PostService = new Post();
 
 		let route = PostService.buildUrl('unpublished') //this line build our full route returning something like http://localhost:8000/posts/unpublished/
 
