@@ -104,7 +104,9 @@ var Service = function () {
 			var _this = this;
 
 			var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+			var parent_id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
+			this.parent_id = parent_id;
 			var route = this.buildUrl();
 			var promise_request = new Promise(function (resolve, reject) {
 				_this.http.get(route, {
@@ -130,10 +132,13 @@ var Service = function () {
 		value: function createResource(data) {
 			var _this2 = this;
 
+			var parent_id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
 			if (!data) {
 				throw "data is needed";
 				return;
 			}
+			this.parent_id = parent_id;
 			var route = this.buildUrl();
 			var promise_request = new Promise(function (resolve, reject) {
 				_this2.http.post(route, data).then(function (data) {
@@ -157,11 +162,13 @@ var Service = function () {
 			var _this3 = this;
 
 			var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+			var parent_id = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
 			if (!id) {
 				throw "ID is needed";
 				return;
 			}
+			this.parent_id = parent_id;
 			var route = this.buildUrl(id);
 			var resource_promise = new Promise(function (resolve, reject) {
 				_this3.http.get(route, {
@@ -187,6 +194,9 @@ var Service = function () {
 		value: function updateResource(id, data) {
 			var _this4 = this;
 
+			var parent_id = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+			this.parent_id = parent_id;
 			var endpoint = this.buildUrl(id);
 			var resource_promise = new Promise(function (resolve, reject) {
 				_this4.http.put(endpoint, data).then(function (data) {
@@ -210,10 +220,13 @@ var Service = function () {
 		value: function deleteResource(id) {
 			var _this5 = this;
 
+			var parent_id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
 			if (!id) {
 				throw "ID to delete is needed";
 				return;
 			}
+			this.parent_id = parent_id;
 			var endpoint = this.buildUrl(id);
 			var resource_promise = new Promise(function (resolve, reject) {
 				_this5.http.delete(endpoint).then(function (data) {
@@ -233,35 +246,37 @@ var Service = function () {
 		key: 'get',
 		value: function get() {
 			var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+			var parent_id = arguments[1];
 
 			var service = new this();
-			return service.getResource(params);
+			return service.getResource(params, parent_id);
 		}
 	}, {
 		key: 'create',
-		value: function create(data) {
+		value: function create(data, parent_id) {
 			var service = new this();
-			return service.createResource(data);
+			return service.createResource(data, parent_id);
 		}
 	}, {
 		key: 'find',
 		value: function find(id) {
 			var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+			var parent_id = arguments[2];
 
 			var service = new this();
-			return service.findResource(id, params);
+			return service.findResource(id, params, parent_id);
 		}
 	}, {
 		key: 'delete',
-		value: function _delete(id) {
+		value: function _delete(id, parent_id) {
 			var service = new this();
-			return service.deleteResource(id);
+			return service.deleteResource(id, parent_id);
 		}
 	}, {
 		key: 'update',
-		value: function update(id, data) {
+		value: function update(id, data, parent_id) {
 			var service = new this();
-			return service.updateResource(id, data);
+			return service.updateResource(id, data, parent_id);
 		}
 	}]);
 
