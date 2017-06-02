@@ -26,6 +26,7 @@ var Service = function () {
 		_classCallCheck(this, Service);
 
 		this.http = axios;
+		this.parent_id = null; //important when you are using a model that depends of other, for example http://local.dev/clients/{parent_id}/service/{id}
 		this.config = {
 			origin: window.location.origin,
 			prefix: '',
@@ -56,11 +57,26 @@ var Service = function () {
 		value: function buildUrl() {
 			var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
-			var prefix = this.config.prefix;
+			var prefix = this.buildPrefix();
 			var origin = this.config.origin;
 			var endpoint = this.config.endpoint;
 
 			return this.sanitizeUrl(origin + "/" + prefix + "/" + endpoint + "/" + id + "/");
+		}
+
+		/**
+   * Builds prefix url.
+   *
+   * @returns String
+   */
+
+	}, {
+		key: 'buildPrefix',
+		value: function buildPrefix() {
+			if (this.parent_id) {
+				return this.config.prefix + '/' + this.parent_id;
+			}
+			return this.config.prefix;
 		}
 
 		/**

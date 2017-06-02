@@ -14,6 +14,7 @@ class Service {
 	 */
 	constructor() {
 		this.http = axios;
+		this.parent_id = null; //important when you are using a model that depends of other, for example http://local.dev/clients/{parent_id}/service/{id}
 		this.config = {
 			origin: window.location.origin,
 			prefix: '',
@@ -40,12 +41,25 @@ class Service {
 	 */
 
 	buildUrl(id = '') {
-		let prefix = this.config.prefix;
+		let prefix = this.buildPrefix();
 		let origin = this.config.origin;
 		let endpoint = this.config.endpoint;
 
 		return this.sanitizeUrl(origin + "/" + prefix + "/" + endpoint + "/" + id + "/");
 	}
+
+
+	/**
+	 * Builds prefix url.
+	 *
+	 * @returns String
+	 */
+    buildPrefix(){
+        if(this.parent_id){
+            return this.config.prefix + '/' + this.parent_id
+        }
+        return this.config.prefix
+    }
 
 	/**
 	 * Remove duplicated slashes.
