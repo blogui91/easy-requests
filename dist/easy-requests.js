@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -61,7 +63,7 @@ var Service = function () {
 			var origin = this.config.origin;
 			var endpoint = this.config.endpoint;
 
-			return this.sanitizeUrl(origin + "/" + prefix + "/" + endpoint + "/" + id + "/");
+			return this.sanitizeUrl(origin + "/" + prefix + "/" + endpoint + "/" + id);
 		}
 
 		/**
@@ -235,6 +237,45 @@ var Service = function () {
 					reject(err);
 				});
 			});
+			return resource_promise;
+		}
+	}, {
+		key: 'handleRequest',
+		value: function handleRequest(data) {
+			var _this6 = this;
+
+			var method = data.method,
+			    route = data.route,
+			    payload = data.payload,
+			    urlParams = data.urlParams;
+
+
+			try {
+				method = method.toLowerCase();
+			} catch (error) {
+				console.error("define a valid method, " + method + " received");
+			}
+
+			var params = _extends({}, urlParams);
+
+			var resource_promise = new Promise(function (resolve, reject) {
+				var action = void 0;
+
+				if (method == 'get') {
+					action = _this6.http[method](route, { params: params });
+				} else if (method == 'put' || method == 'post' || method == 'patch') {
+					action = _this6.http[method](route, payload);
+				} else if (method == 'delete') {
+					action = _this6.http[method](route);
+				}
+
+				action.then(function (data) {
+					resolve(data);
+				}).catch(function (error) {
+					reject(error);
+				});
+			});
+
 			return resource_promise;
 		}
 	}], [{

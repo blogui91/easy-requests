@@ -45,7 +45,7 @@ class Service {
 		let origin = this.config.origin;
 		let endpoint = this.config.endpoint;
 
-		return this.sanitizeUrl(origin + "/" + prefix + "/" + endpoint + "/" + id + "/");
+		return this.sanitizeUrl(origin + "/" + prefix + "/" + endpoint + "/" + id );
 	}
 
 
@@ -222,6 +222,43 @@ class Service {
 		});
 		return resource_promise;
 	}
+
+
+	handleRequest(data){
+		let { method , route , payload , urlParams } = data;
+
+		try{
+			method = method.toLowerCase();
+		}catch(error){
+			console.error("define a valid method, "+method+" received")
+		}
+
+		let params = {
+			...urlParams
+		}
+
+		let resource_promise = new Promise((resolve, reject) => {
+			let action
+
+			if(method == 'get' ){
+				action = this.http[method](route, {params})
+			}else if(method == 'put' || method == 'post' || method == 'patch'){
+				action = this.http[method](route, payload)
+			}else if(method == 'delete'){
+				action = this.http[method](route)
+			}
+
+			action
+				.then((data) => {
+					resolve(data)
+				}).catch(error => {
+					reject(error)
+				})
+		});
+
+		return resource_promise
+	}
+
 }
 
 export default Service;

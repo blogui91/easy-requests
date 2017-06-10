@@ -38,24 +38,25 @@ class Post extends Service {
 		super();
 	}
 
-	static customMethod() {
-		let PostService = new Post();
+	static unpublishedPosts(params) {
+		let PostI = new Post() 
+			
+		let route = PostI.buildUrl(); //http://localhost:8000/my-posts/unpublished-posts 
 
-		let route = PostService.buildUrl('unpublished') //this line build our full route returning something like http://localhost:8000/posts/unpublished/
-
-		// We are creating a function that receives two params to resolve and reject a promise,
-		let request = (resolve, reject) => {
-			//PostService.http.{verb} Allow us to make the http request  using the verbs [GET|POST|DELETE|PUT] etc
-			PostService.http.get(route)
-				.then(response => resolve(response.data))
-				.catch(error => reject(error))
+		let data = {
+			route, 
+			method : 'delete',
+			payload : {
+				title : "hello world",
+				description : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat ipsa tempore a quam, nesciunt, obcaecati temporibus libero dolorem quisquam omnis laborum, quidem eligendi commodi aspernatur esse. Consectetur dolorum, quis quam."
+			},
+			urlParams : {
+				per_page : 5,
+				page : 4
+			}
 		}
-		// basicly this is the structure that a promise instance must receive which it will be declared below. 	
 
-		// Create a promise which will resolve our request , 
-		let request_promise = new Promise(request)
-
-		return request_promise;
+		return PostI.handleRequest(data);
 	}
 }
 
@@ -87,16 +88,13 @@ post_promise.then(posts =>{
 // We can also use it with async/await 2017!!
 async function getMyPosts() {
 
-	let postsList = await Post.get(); //Get Post collection
-	
-	// You don't need to resolve it as a promise!
-	posts_list = postsList;
+	posts_list = await Post.get(); //Get Post collection
 
-	let post = await PostService.find(2, {
+	let post = await Post.find(2, {
 		published: true 
 	});  //Params which axios will send as http://mydomain.com/posts?published=true
 
-	let post = await PostService.getUnpublishedPosts();
+	let post = await Post.getUnpublishedPosts();
 	
 	console.log("this is my post Object!: ", post);
 }
