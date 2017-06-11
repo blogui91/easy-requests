@@ -41,7 +41,7 @@ class Post extends Service {
 	static unpublishedPosts(params) {
 		let PostI = new Post() 
 			
-		let route = PostI.buildUrl(); //http://localhost:8000/my-posts/unpublished-posts 
+		let route = PostI.buildUrl('unpublished-posts'); //http://localhost:8000/my-posts/unpublished-posts 
 
 		let data = {
 			route, 
