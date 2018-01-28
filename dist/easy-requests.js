@@ -11,8 +11,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /* 
- *	Easy requests |
- *	(c) 2017 by Cesar Santana 
+ *  Easy requests |
+ *  (c) 2018 by Cesar Santana 
  */
 
 var axios = require('axios');
@@ -93,6 +93,66 @@ var Service = function () {
 			return endpoint.replace(/([^:])(\/\/+)/g, '$1/');
 		}
 	}, {
+		key: 'beforeFind',
+		value: function beforeFind(data) {
+			return data;
+		}
+	}, {
+		key: 'found',
+		value: function found(data) {
+			return data;
+		}
+	}, {
+		key: 'beforeFetch',
+		value: function beforeFetch(data) {
+			return data;
+		}
+	}, {
+		key: 'fetched',
+		value: function fetched(data) {
+			return data;
+		}
+	}, {
+		key: 'beforeCreate',
+		value: function beforeCreate(data) {
+			return data;
+		}
+	}, {
+		key: 'created',
+		value: function (_created) {
+			function created() {
+				return _created.apply(this, arguments);
+			}
+
+			created.toString = function () {
+				return _created.toString();
+			};
+
+			return created;
+		}(function () {
+			return created;
+		})
+	}, {
+		key: 'beforeUpdate',
+		value: function beforeUpdate(data) {
+			return data;
+		}
+	}, {
+		key: 'updated',
+		value: function updated(data) {
+			return data;
+		}
+	}, {
+		key: 'beforeDelete',
+		value: function beforeDelete(data) {
+			return data;
+		}
+	}, {
+		key: 'deleted',
+		value: function deleted(data) {
+			return data;
+		}
+	}, {
 		key: 'getResource',
 
 
@@ -114,7 +174,7 @@ var Service = function () {
 				_this.http.get(route, {
 					params: params
 				}).then(function (posts) {
-					resolve(posts.data);
+					resolve(_this.fetched(posts.data));
 				}).catch(function (error) {
 					reject(error);
 				});
@@ -144,7 +204,7 @@ var Service = function () {
 			var route = this.buildUrl();
 			var promise_request = new Promise(function (resolve, reject) {
 				_this2.http.post(route, data).then(function (data) {
-					resolve(data.data);
+					resolve(_this2.created(data.data));
 				}).catch(function (err) {
 					reject(err);
 				});
@@ -176,7 +236,7 @@ var Service = function () {
 				_this3.http.get(route, {
 					params: params
 				}).then(function (item) {
-					resolve(item.data);
+					resolve(_this3.found(item.data));
 				}).catch(function (err) {
 					reject(err);
 				});
@@ -202,7 +262,7 @@ var Service = function () {
 			var endpoint = this.buildUrl(id);
 			var resource_promise = new Promise(function (resolve, reject) {
 				_this4.http.put(endpoint, data).then(function (data) {
-					resolve(data.data);
+					resolve(_this4.updated(data.data));
 				}).catch(function (err) {
 					reject(err);
 				});
@@ -232,7 +292,7 @@ var Service = function () {
 			var endpoint = this.buildUrl(id);
 			var resource_promise = new Promise(function (resolve, reject) {
 				_this5.http.delete(endpoint).then(function (data) {
-					resolve(data.data); // Deberiamos definir las convenciones para cuando recibamos una collección
+					resolve(_this5.deleted(data)); // Deberiamos definir las convenciones para cuando recibamos una collección
 				}).catch(function (err) {
 					reject(err);
 				});
@@ -262,7 +322,9 @@ var Service = function () {
 				var action = void 0;
 
 				if (method == 'get') {
-					action = _this6.http[method](route, { params: params });
+					action = _this6.http[method](route, {
+						params: params
+					});
 				} else if (method == 'put' || method == 'post' || method == 'patch') {
 					action = _this6.http[method](route, payload);
 				} else if (method == 'delete') {
@@ -290,12 +352,14 @@ var Service = function () {
 			var parent_id = arguments[1];
 
 			var service = new this();
+			params = service.beforeFetch(params);
 			return service.getResource(params, parent_id);
 		}
 	}, {
 		key: 'create',
 		value: function create(data, parent_id) {
 			var service = new this();
+			data = service.beforeCreate(data);
 			return service.createResource(data, parent_id);
 		}
 	}, {
@@ -305,18 +369,21 @@ var Service = function () {
 			var parent_id = arguments[2];
 
 			var service = new this();
+			id = service.beforeFind(id);
 			return service.findResource(id, params, parent_id);
 		}
 	}, {
 		key: 'delete',
 		value: function _delete(id, parent_id) {
 			var service = new this();
+			id = service.beforeDelete(id);
 			return service.deleteResource(id, parent_id);
 		}
 	}, {
 		key: 'update',
 		value: function update(id, data, parent_id) {
 			var service = new this();
+			data = service.beforeUpdate(data);
 			return service.updateResource(id, data, parent_id);
 		}
 	}]);

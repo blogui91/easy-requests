@@ -1,11 +1,11 @@
 /* 
- *	Easy requests |
- *	(c) 2017 by Cesar Santana 
+ *  Easy requests |
+ *  (c) 2017 by Cesar Santana 
  */
 
-var axios = require('axios');
-var pluralize = require('pluralize');
-var _ = require('lodash');
+var axios = require('axios')
+var pluralize = require('pluralize')
+var _ = require('lodash')
 
 class Service {
 	/**
@@ -30,7 +30,7 @@ class Service {
 	 */
 
 	getClassName() {
-		return this.constructor.name;
+		return this.constructor.name
 	}
 
 
@@ -45,7 +45,7 @@ class Service {
 		let origin = this.config.origin;
 		let endpoint = this.config.endpoint;
 
-		return this.sanitizeUrl(origin + "/" + prefix + "/" + endpoint + "/" + id );
+		return this.sanitizeUrl(origin + "/" + prefix + "/" + endpoint + "/" + id);
 	}
 
 
@@ -54,12 +54,12 @@ class Service {
 	 *
 	 * @returns String
 	 */
-    buildPrefix(){
-        if(this.parent_id){
-            return this.config.prefix + '/' + this.parent_id
-        }
-        return this.config.prefix
-    }
+	buildPrefix() {
+		if (this.parent_id) {
+			return this.config.prefix + '/' + this.parent_id
+		}
+		return this.config.prefix
+	}
 
 	/**
 	 * Remove duplicated slashes.
@@ -77,28 +77,68 @@ class Service {
 
 
 	static get(params = {}, parent_id) {
-		let service = new this();
-		return service.getResource(params, parent_id);
+		let service = new this()
+		params = service.beforeFetch(params)
+		return service.getResource(params, parent_id)
+	}
+
+	beforeFind(data) {
+		return data
+	}
+	found(data) {
+		return data
+	}
+
+	beforeFetch(data) {
+		return data
+	}
+	fetched(data) {
+		return data
+	}
+
+	beforeCreate(data) {
+		return data
+	}
+	created() {
+		return created
+	}
+
+	beforeUpdate(data) {
+		return data
+	}
+	updated(data) {
+		return data
+	}
+
+	beforeDelete(data) {
+		return data
+	}
+	deleted(data) {
+		return data
 	}
 
 	static create(data, parent_id) {
-		let service = new this();
-		return service.createResource(data, parent_id);
+		let service = new this()
+		data = service.beforeCreate(data)
+		return service.createResource(data, parent_id)
 	}
 
 	static find(id, params = {}, parent_id) {
-		let service = new this();
-		return service.findResource(id, params, parent_id);
+		let service = new this()
+		id = service.beforeFind(id)
+		return service.findResource(id, params, parent_id)
 	}
 
 	static delete(id, parent_id) {
-		let service = new this();
-		return service.deleteResource(id, parent_id);
+		let service = new this()
+		id = service.beforeDelete(id)
+		return service.deleteResource(id, parent_id)
 	}
 
 	static update(id, data, parent_id) {
-		let service = new this();
-		return service.updateResource(id, data, parent_id);
+		let service = new this()
+		data = service.beforeUpdate(data)
+		return service.updateResource(id, data, parent_id)
 	}
 
 	/**
@@ -108,14 +148,14 @@ class Service {
 	 */
 
 	getResource(params = {}, parent_id = null) {
-		this.parent_id = parent_id;
+		this.parent_id = parent_id
 		var route = this.buildUrl();
 		var promise_request = new Promise((resolve, reject) => {
 			this.http.get(route, {
-					params
-				})
+				params
+			})
 				.then((posts) => {
-					resolve(posts.data);
+					resolve(this.fetched(posts.data));
 				})
 				.catch(error => {
 					reject(error);
@@ -141,7 +181,7 @@ class Service {
 		var promise_request = new Promise((resolve, reject) => {
 			this.http.post(route, data)
 				.then((data) => {
-					resolve(data.data);
+					resolve(this.created(data.data));
 				})
 				.catch((err) => {
 					reject(err);
@@ -168,7 +208,7 @@ class Service {
 					params
 				})
 				.then((item) => {
-					resolve(item.data);
+					resolve(this.found(item.data));
 				})
 				.catch((err) => {
 					reject(err);
@@ -189,7 +229,7 @@ class Service {
 		var resource_promise = new Promise((resolve, reject) => {
 			this.http.put(endpoint, data)
 				.then((data) => {
-					resolve(data.data);
+					resolve(this.updated(data.data));
 				})
 				.catch((err) => {
 					reject(err);
@@ -206,31 +246,36 @@ class Service {
 	 */
 	deleteResource(id, parent_id = null) {
 		if (!id) {
-			throw "ID to delete is needed";
-			return;
+			throw "ID to delete is needed"
+			return
 		}
-		this.parent_id = parent_id;
-		var endpoint = this.buildUrl(id);
+		this.parent_id = parent_id
+		var endpoint = this.buildUrl(id)
 		var resource_promise = new Promise((resolve, reject) => {
 			this.http.delete(endpoint)
 				.then((data) => {
-					resolve(data.data); // Deberiamos definir las convenciones para cuando recibamos una collección
+					resolve(this.deleted(data)) // Deberiamos definir las convenciones para cuando recibamos una collección
 				})
 				.catch((err) => {
-					reject(err);
-				});
-		});
-		return resource_promise;
+					reject(err)
+				})
+		})
+		return resource_promise
 	}
 
 
-	handleRequest(data){
-		let { method , route , payload , urlParams } = data;
+	handleRequest(data) {
+		let {
+			method,
+			route,
+			payload,
+			urlParams
+		} = data
 
-		try{
-			method = method.toLowerCase();
-		}catch(error){
-			console.error("define a valid method, "+method+" received")
+		try {
+			method = method.toLowerCase()
+		} catch (error) {
+			console.error("define a valid method, " + method + " received")
 		}
 
 		let params = {
@@ -240,11 +285,13 @@ class Service {
 		let resource_promise = new Promise((resolve, reject) => {
 			let action
 
-			if(method == 'get' ){
-				action = this.http[method](route, {params})
-			}else if(method == 'put' || method == 'post' || method == 'patch'){
+			if (method == 'get') {
+				action = this.http[method](route, {
+					params
+				})
+			} else if (method == 'put' || method == 'post' || method == 'patch') {
 				action = this.http[method](route, payload)
-			}else if(method == 'delete'){
+			} else if (method == 'delete') {
 				action = this.http[method](route)
 			}
 
@@ -254,11 +301,11 @@ class Service {
 				}).catch(error => {
 					reject(error)
 				})
-		});
+		})
 
 		return resource_promise
 	}
 
 }
 
-export default Service;
+export default Service
