@@ -99,7 +99,7 @@ class Service {
 	beforeCreate(data) {
 		return data
 	}
-	created() {
+	created(created) {
 		return created
 	}
 
@@ -264,7 +264,7 @@ class Service {
 	}
 
 
-	handleRequest(data) {
+	handleRequest(data, hookname) {
 		let {
 			method,
 			route,
@@ -296,7 +296,12 @@ class Service {
 			}
 
 			action
-				.then((data) => {
+			.then((data) => {
+					if (hookname ) {
+						if (this[hookName]) {
+							 data = this[hookName](data)
+						}
+					}
 					resolve(data)
 				}).catch(error => {
 					reject(error)
