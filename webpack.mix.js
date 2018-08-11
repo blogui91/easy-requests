@@ -19,6 +19,5 @@ mix.options({
 	uglify: false
 });
 
-mix.setPublicPath('examples/');
-mix
-	.js('examples/app.js','examples/bundle.js')
+mix.setPublicPath('./');
+mix.js('src/easy-requests.js','./dist/easy-requests.js')

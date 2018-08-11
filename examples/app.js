@@ -5,7 +5,7 @@ import {
   Service,
   Model,
   Trait
-} from '../src/easy-requests'
+} from '../dist/easy-requests'
 
 class Post extends Service { //Endpointname depends of class name
   constructor() {
