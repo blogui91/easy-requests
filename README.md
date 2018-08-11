@@ -100,6 +100,57 @@ async function getMyPosts() {
 }
 
 getMyPosts();
+
+## New feature: Models
+
+Basicly we just have to import Model and Trait. Where Trait() will allow you to extend your service with extra clases.
+
+import {
+  Service,
+  Model,
+  Trait
+} from '../src/easy-requests'
+
+class User extends Trait(Service).with(Model) {
+  constructor () {
+    super()
+    this.config.endpoint = 'users'
+    this.config.origin = 'https://jsonplaceholder.typicode.com/'
+    this.defineColumns(['id', 'name', 'username', 'phone', 'email']) // Required
+  }
+}
+
+const user = new User()
+user.fill({
+  name: 'John Doe',
+  username: 'johndoe',
+  email: 'john.doe@email.com',
+  phone: '000000000'
+})
+
+user.save()   // http://api.carbonodev.com/api/users [POST]
+  .then(response => {
+    // New user
+  })
+  .catch(error => {
+    throw error
+  })
+
+user.update() // http://api.carbonodev.com/api/users/{id} [PUT]
+  .then(response => {
+    // User updated
+  })
+  .catch(error => {
+    throw error
+  })
+
+user.delete() // http://api.carbonodev.com/api/users/{id} [DELETE]
+  .then(response => {
+    // User deleted
+  })
+  .catch(error => {
+    throw error
+  })
 ```
 
 # Note
@@ -115,8 +166,8 @@ class Post extends Service
   constructor(){
     super();
     this.http.default.headers.common = {
-    	'X-CSRF-TOKEN': {{YOUR-CSRF-TOKEN}},
-	'X-Requested-With': 'XMLHttpRequest'
+      'X-CSRF-TOKEN': {{YOUR-CSRF-TOKEN}},
+      'X-Requested-With': 'XMLHttpRequest'
     }
   }
 }
@@ -136,4 +187,3 @@ window.axios.defaults.headers.common = {
 # Contributing
 
 Please feel free in openning an issue if you have any problem or have any idea to improve, even in creating pull requests :)
-
