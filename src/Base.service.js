@@ -15,8 +15,8 @@ class Service {
    *
    */
   constructor() {
-    this.http = axios;
-    this.parent_id = null; //important when you are using a model that depends of other, for example http://local.dev/clients/{parent_id}/service/{id}
+    this._http = axios
+    this.parent_id = null //important when you are using a model that depends of other, for example http://local.dev/clients/{parent_id}/service/{id}
     this.config = {
       origin: window.location.origin,
       prefix: '',
@@ -74,12 +74,12 @@ class Service {
   }
 
   static newInstance() {
-    return new this();
+    return new Service();
   }
 
 
   static get(params = {}, parent_id) {
-    let service = new this()
+    let service = new Service()
     params = service.beforeFetch(params)
     return service.getResource(params, parent_id)
   }
@@ -120,25 +120,25 @@ class Service {
   }
 
   static create(data, parent_id) {
-    let service = new this()
+    let service = new Service()
     data = service.beforeCreate(data)
     return service.createResource(data, parent_id)
   }
 
   static find(id, params = {}, parent_id) {
-    let service = new this()
+    let service = new Service()
     id = service.beforeFind(id)
     return service.findResource(id, params, parent_id)
   }
 
   static delete(id, parent_id) {
-    let service = new this()
+    let service = new Service()
     id = service.beforeDelete(id)
     return service.deleteResource(id, parent_id)
   }
 
   static update(id, data, parent_id) {
-    let service = new this()
+    let service = new Service()
     data = service.beforeUpdate(data)
     return service.updateResource(id, data, parent_id)
   }
@@ -153,7 +153,7 @@ class Service {
     this.parent_id = parent_id
     var route = this.buildUrl();
     var promise_request = new Promise((resolve, reject) => {
-      this.http.get(route, {
+      this._http.get(route, {
           params
         })
         .then((response) => {
@@ -181,7 +181,7 @@ class Service {
     this.parent_id = parent_id;
     var route = this.buildUrl();
     var promise_request = new Promise((resolve, reject) => {
-      this.http.post(route, data)
+      this._http.post(route, data)
         .then((data) => {
           resolve(this.created(data));
         })
@@ -206,7 +206,7 @@ class Service {
     this.parent_id = parent_id;
     var route = this.buildUrl(id);
     var resource_promise = new Promise((resolve, reject) => {
-      this.http.get(route, {
+      this._http.get(route, {
           params
         })
         .then((response) => {
@@ -229,7 +229,7 @@ class Service {
     this.parent_id = parent_id;
     var endpoint = this.buildUrl(id);
     var resource_promise = new Promise((resolve, reject) => {
-      this.http.put(endpoint, data)
+      this._http.put(endpoint, data)
         .then((response) => {
           resolve(this.updated(response));
         })
@@ -254,7 +254,7 @@ class Service {
     this.parent_id = parent_id
     var endpoint = this.buildUrl(id)
     var resource_promise = new Promise((resolve, reject) => {
-      this.http.delete(endpoint)
+      this._http.delete(endpoint)
         .then((data) => {
           resolve(this.deleted(data)) // Deberiamos definir las convenciones para cuando recibamos una collección
         })
@@ -288,13 +288,13 @@ class Service {
       let action
 
       if (method == 'get') {
-        action = this.http[method](route, {
+        action = this._http[method](route, {
           params
         })
       } else if (method == 'put' || method == 'post' || method == 'patch') {
-        action = this.http[method](route, payload)
+        action = this._http[method](route, payload)
       } else if (method == 'delete') {
-        action = this.http[method](route)
+        action = this._http[method](route)
       }
 
       action

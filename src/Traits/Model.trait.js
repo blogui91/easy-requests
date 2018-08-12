@@ -1,6 +1,7 @@
 let BaseModel = (superclass) => class extends superclass {
   constructor () {
-    props = []
+    super()
+    this.props = []
     this.attributes = {}
     this._isBeingDeleted = false
     this._isBeingCreated = true

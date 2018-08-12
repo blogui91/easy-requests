@@ -20,4 +20,4 @@ const {
 // });
 
 mix.setPublicPath('./');
-mix.js('src/easy-requests.js','./dist')
+mix.js('src/index','./dist')

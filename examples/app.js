@@ -1,4 +1,4 @@
-import Service from '../src/Base.service'
+import { Trait, Model, Service} from '../dist'
 class Post extends Service { //Endpointname depends of class name
   constructor() {
     super();
@@ -63,7 +63,7 @@ function getMyPosts() {
 getMyPosts();
 
 document.write('<h1>New Feature: Models</h1>')
-class User extends Class(Service).use(Model) {
+class User extends Trait(Service).use(Model) {
   constructor() {
     super()
     this.config.endpoint = 'users'

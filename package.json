@@ -1,8 +1,8 @@
 {
   "name": "easy-requests",
-  "version": "2.0.9",
+  "version": "2.0.12",
   "description": "Painless http requests",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "babel ./src/easy-requests.js -o dist/easy-requests.js",
     "dev": "NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",

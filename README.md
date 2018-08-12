@@ -111,7 +111,7 @@ import {
   Trait
 } from '../src/easy-requests'
 
-class User extends Trait(Service).with(Model) {
+class User extends Trait(Service).use(Model) {
   constructor () {
     super()
     this.config.endpoint = 'users'
