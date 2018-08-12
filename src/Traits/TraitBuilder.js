@@ -3,9 +3,9 @@ class TraitBuilder {
     this.superclass = superclass || class {}
   }
 
-  with (...traits) {
+  use (...traits) {
     return traits.reduce((c, trait) => trait(c), this.superclass)
   }
 }
 
-export const trait = (superclass) => new TraitBuilder(superclass)
+export const Trait = (superclass) => new TraitBuilder(superclass)

@@ -1,16 +1,7 @@
-require("babel-core/register");
-require("babel-polyfill");
-
-import {
-  Service,
-  Model,
-  Trait
-} from '../dist/easy-requests'
-
+import Service from '../src/Base.service'
 class Post extends Service { //Endpointname depends of class name
   constructor() {
     super();
-
     //Overriding values
     //this.config.origin = "http://localhost:8000"; //http://localhost:8000/posts
     //this.config.endpoint = '/my-posts'; // we override endpoint default name to, http://localhost:8000/my-posts 
@@ -18,12 +9,9 @@ class Post extends Service { //Endpointname depends of class name
     this.config.endpoint = '/users'; // we override endpoint default name to, http://localhost:8000/my-posts 
     this.config.origin = 'https://jsonplaceholder.typicode.com/'
   }
-
-
   static getUnpublishedPosts(params) {
     let PostI = new Post()
     let route = PostI.buildUrl() //+ "/unpublished-posts"; //http://localhost:8000/my-posts/unpublished-posts 
-
     //if you want to send params to the url, send it as second parameter in this.http.get function
     // for more information check axios documentation [https://github.com/mzabriskie/axios]
     let request_promise = new Promise((resolve, reject) => {
@@ -37,15 +25,11 @@ class Post extends Service { //Endpointname depends of class name
           reject(error);
         });
     });
-
     return request_promise;
   }
-
   static unpublishedPosts(params) {
     let PostI = new Post()
-
     let route = PostI.buildUrl(); //http://localhost:8000/my-posts/unpublished-posts 
-
     let data = {
       route,
       method: 'get',
@@ -58,14 +42,11 @@ class Post extends Service { //Endpointname depends of class name
         page: 4
       }
     }
-
     return PostI.handleRequest(data);
   }
-
 }
 
 //Use it with async/await ES7!!
-
 function getMyPosts() {
   let postsList = Post.unpublishedPosts(); //Get Post collection
   postsList.then(success => {
@@ -81,28 +62,23 @@ function getMyPosts() {
 
 getMyPosts();
 
-
 document.write('<h1>New Feature: Models</h1>')
-
-class User extends Trait(Service).with(Model) {
-  constructor () {
+class User extends Class(Service).use(Model) {
+  constructor() {
     super()
     this.config.endpoint = 'users'
     this.config.origin = 'https://jsonplaceholder.typicode.com/'
     this.defineColumns(['id', 'name', 'username', 'phone', 'email'])
   }
 }
-
 const user = new User()
-
 user.fill({
   name: 'John Doe',
   username: 'johndoe',
   email: 'john.doe@email.com',
   phone: '000000000'
 })
-
-user.save()   // http://api.carbonodev.com/api/users [POST]
+user.save() // http://api.carbonodev.com/api/users [POST]
   .then(response => {
     // New user
     document.write(JSON.stringify(user.serialize()))

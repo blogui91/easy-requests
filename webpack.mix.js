@@ -15,9 +15,9 @@ const {
  */
 
 //Disable uglify, it's having some issues minifying ES6 features
-mix.options({
-	uglify: false
-});
+// mix.options({
+// 	uglify: true
+// });
 
 mix.setPublicPath('./');
-mix.js('src/easy-requests.js','./dist/easy-requests.js')
+mix.js('src/easy-requests.js','./dist')

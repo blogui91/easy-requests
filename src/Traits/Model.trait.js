@@ -1,10 +1,12 @@
 let BaseModel = (superclass) => class extends superclass {
-  props = []
-  attributes = {}
-  _isBeingDeleted = false
-  _isBeingCreated = true
-  _isDeleted = false
-  _exists = false
+  constructor () {
+    props = []
+    this.attributes = {}
+    this._isBeingDeleted = false
+    this._isBeingCreated = true
+    this._isDeleted = false
+    this._exists = false
+  }
 
   defineColumns (columns, data = null) {
     this.props = columns
