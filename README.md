@@ -1,5 +1,7 @@
 # Easy requests
 
+# V3 IN PROCESS!
+
 ## Instalation
 ```
     npm install easy-requests
